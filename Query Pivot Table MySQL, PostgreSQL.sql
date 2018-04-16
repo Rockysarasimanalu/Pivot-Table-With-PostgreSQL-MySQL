@@ -20,15 +20,15 @@ with w as (
 								 when oi.taxtype = 1 THEN round((oi.unitprice + ((oi.unitprice-oi.pricefromdealerbeforetaxed)*0.1))*(oi.quantity)) 
 								 else 0 
 							 end as totalrph  
-						 from sscorder o 
+						 from TableG o 
 						
-						 join sscorderitem oi on o.orderid=oi.orderid
-						 join sscproduct p on oi.productid=p.productid 
-						 join sscwarunguser wu on o.warunguserid=wu.warunguserid 
-						 join sscwarung w on w.warungid = wu.warungid 
-						 join sscagentinvitationcode aic on aic.agentinvitationcodeid=w.agentinvitationcodeid 
-						 left join sscmpmcustomerdataiduserid mcdu ON mcdu.userid = wu.userid 
-						 left join sscmpmcustomerdata mcd ON mcd.mpmcustomerdataid = mcdu.mpmcustomerdataid
+						 join TableF oi on o.orderid=oi.orderid
+						 join TableE p on oi.productid=p.productid 
+						 join TableC wu on o.warunguserid=wu.warunguserid 
+						 join TableD w on w.warungid = wu.warungid 
+						 join TableA aic on aic.agentinvitationcodeid=w.agentinvitationcodeid 
+						 left join TableH mcdu ON mcdu.userid = wu.userid 
+						 left join TableB mcd ON mcd.mpmcustomerdataid = mcdu.mpmcustomerdataid
 						 where o.timestamporderpaid BETWEEN '2018-04-03 12:00:000' AND '2018-04-03 21:25:000' and o.vendorid in (select vendorid from sscvendor WHERE lower(name) LIKE '%diy%' and isactiveforwarung)  AND aic.invitationcode like '%MPM%' 
 				-- 		 where o.timestamporderpaid >= TO_CHAR(now() - interval '9 hours 25 minutes' , 'YYYY-MM-DD HH24:MI:SS') and o.vendorid in (select vendorid from sscvendor WHERE lower(name) LIKE '%diy%' and isactiveforwarung)  AND aic.invitationcode like '%MPM%' 
 						
